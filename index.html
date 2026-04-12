@@ -1,40 +1,384 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>InsightFlow AI</title>
-  <meta charset="UTF-8">
   <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, #dbeafe 0%, transparent 30%),
+        radial-gradient(circle at top right, #e0e7ff 0%, transparent 28%),
+        linear-gradient(180deg, #f8fbff 0%, #eef4ff 100%);
+      color: #111827;
+    }
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 30px;
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .brand {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: #4b5563;
+      margin-left: 18px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .container {
+      max-width: 1180px;
+      margin: auto;
+      padding: 28px 20px 70px;
+    }
+    .hero {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 28px;
+      align-items: center;
+      padding: 44px 0 20px;
+    }
+    .hero-left {
+      padding-right: 10px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: #e0ecff;
+      color: #1d4ed8;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    h1 {
+      font-size: 56px;
+      line-height: 1.06;
+      margin: 16px 0 18px;
+      letter-spacing: -1px;
+    }
+    .hero-text {
+      font-size: 18px;
+      color: #4b5563;
+      line-height: 1.85;
+      max-width: 720px;
+    }
+    .hero-actions {
+      margin-top: 24px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      border: none;
+      border-radius: 12px;
+      padding: 14px 22px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-primary {
+      background: #2563eb;
+      color: white;
+      box-shadow: 0 12px 25px rgba(37,99,235,0.22);
+    }
+    .btn-primary:hover {
+      background: #1d4ed8;
+    }
+    .btn-secondary {
+      background: white;
+      color: #111827;
+      border: 1px solid #d1d5db;
+    }
+    .card {
+      background: white;
+      border-radius: 22px;
+      padding: 26px;
+      box-shadow: 0 20px 45px rgba(0,0,0,0.06);
+      border: 1px solid #edf2ff;
+    }
+    .price-card {
+      position: relative;
+      overflow: hidden;
+    }
+    .price-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(37,99,235,0.06), rgba(99,102,241,0.03));
+      pointer-events: none;
+    }
+    .small {
+      color: #6b7280;
+      font-size: 14px;
+      position: relative;
+    }
+    .price {
+      font-size: 52px;
+      font-weight: 800;
+      margin: 8px 0 4px;
+      position: relative;
+    }
+    .price span {
+      font-size: 16px;
+      font-weight: 500;
+      color: #6b7280;
+    }
+    .features {
+      position: relative;
+      margin-top: 18px;
+      padding-left: 18px;
+      color: #374151;
+      line-height: 1.9;
+    }
+    .features li {
+      margin-bottom: 4px;
+    }
+    .section {
+      margin-top: 34px;
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 18px;
+    }
+    .section-header h2 {
+      font-size: 34px;
+      margin-bottom: 10px;
+    }
+    .section-header p {
+      max-width: 760px;
+      margin: auto;
+      color: #6b7280;
+      line-height: 1.8;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .mini-card {
+      background: white;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 14px 30px rgba(0,0,0,0.05);
+      border: 1px solid #eef2f7;
+    }
+    .mini-card h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 21px;
+    }
+    .mini-card p {
+      margin: 0;
+      color: #6b7280;
+      line-height: 1.8;
+    }
+    .info-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 22px;
+    }
+    .info-box {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 18px;
+      text-align: center;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.04);
+    }
+    .info-box strong {
+      display: block;
+      font-size: 22px;
+      margin-bottom: 6px;
+    }
+    .info-box span {
+      color: #6b7280;
+      font-size: 14px;
+    }
+    .contact-card {
+      margin-top: 28px;
+      background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+      color: white;
+      border-radius: 24px;
+      padding: 30px;
+    }
+    .contact-card h2 {
+      margin-top: 0;
+      font-size: 30px;
+    }
+    .contact-card p {
+      color: #d1d5db;
+      line-height: 1.8;
+      margin-bottom: 0;
+    }
+    .footer {
+      margin-top: 34px;
+      text-align: center;
+      color: #6b7280;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+    .footer a {
+      color: #2563eb;
+      text-decoration: none;
+      margin: 0 8px;
+    }
+    @media (max-width: 950px) {
+      .hero,
+      .grid-3,
+      .info-strip {
+        grid-template-columns: 1fr;
+      }
+      h1 {
+        font-size: 40px;
+      }
+      .hero-left {
+        padding-right: 0;
+      }
+    }
+  </style>
 </head>
+<body>
+  <div class="nav">
+    <div class="brand">🚀 InsightFlow AI</div>
+    <div class="nav-links">
+      <a href="terms.html">Terms</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="refund.html">Refund</a>
+    </div>
+  </div>
 
-<body style="text-align:center; padding:40px; font-family:Arial;">
+  <div class="container">
+    <section class="hero">
+      <div class="hero-left">
+        <div class="badge">Subscription-based analytics software</div>
+        <h1>AI-powered insights for modern business data</h1>
+        <div class="hero-text">
+          InsightFlow AI is a web-based software platform that helps businesses, analysts, and teams
+          review data, understand trends, and access premium AI-supported insights through a simple monthly subscription.
+        </div>
+        <div class="hero-actions">
+          <button class="btn btn-primary" onclick="pay()">Upgrade to Pro</button>
+          <a class="btn btn-secondary" href="#about">Explore the platform</a>
+        </div>
 
-<h1>🚀 InsightFlow AI</h1>
-<p>AI-powered analytics platform</p>
+        <div class="info-strip">
+          <div class="info-box">
+            <strong>Web-based</strong>
+            <span>Online software access</span>
+          </div>
+          <div class="info-box">
+            <strong>AI insights</strong>
+            <span>Summaries and analysis</span>
+          </div>
+          <div class="info-box">
+            <strong>$10/month</strong>
+            <span>Premium subscription plan</span>
+          </div>
+        </div>
+      </div>
 
-<a href="terms.html">Terms</a> |
-<a href="privacy.html">Privacy</a> |
-<a href="refund.html">Refund</a>
+      <div class="card price-card">
+        <div class="small">Pro subscription</div>
+        <div class="price">$10 <span>/ month</span></div>
+        <p class="small">Premium access to InsightFlow AI features</p>
 
-<br><br>
+        <ul class="features">
+          <li>AI-generated business insights</li>
+          <li>Simple customer-facing web access</li>
+          <li>Subscription-based premium features</li>
+          <li>Support for analytics and operational review</li>
+          <li>Fast online checkout</li>
+        </ul>
 
-<button onclick="pay()">Upgrade to Pro</button>
+        <button class="btn btn-primary" style="width:100%; margin-top:16px;" onclick="pay()">
+          Start Pro Subscription
+        </button>
+      </div>
+    </section>
 
-<script>
-  Paddle.Initialize({
-    token: "live_0326ca69fadab10242b2f00ce19"
-  });
+    <section class="section" id="about">
+      <div class="section-header">
+        <h2>About the platform</h2>
+        <p>
+          InsightFlow AI is designed as a software service for users who need accessible, AI-powered analysis.
+          Customers access the platform online and subscribe to premium features through a monthly plan.
+        </p>
+      </div>
+    </section>
 
-  function pay() {
-    Paddle.Checkout.open({
-      items: [
-        {
-          priceId: "pri_01kp0nxrxnzdzmhegbvfmt7yas",
-          quantity: 1
-        }
-      ]
+    <section class="grid-3">
+      <div class="mini-card">
+        <h3>What it does</h3>
+        <p>
+          Helps users analyze uploaded or business-related data and receive AI-assisted summaries and insights.
+        </p>
+      </div>
+      <div class="mini-card">
+        <h3>How customers use it</h3>
+        <p>
+          Customers access the product online through a website and use the platform through a web-based interface.
+        </p>
+      </div>
+      <div class="mini-card">
+        <h3>Business model</h3>
+        <p>
+          InsightFlow AI operates as a subscription-based SaaS product with paid access to premium features.
+        </p>
+      </div>
+    </section>
+
+    <section class="contact-card">
+      <h2>Support and contact</h2>
+      <p>
+        For product questions, billing inquiries, or support requests, contact us at:
+        <br><br>
+        <strong>your@email.com</strong>
+      </p>
+    </section>
+
+    <div class="footer">
+      <div>
+        <a href="terms.html">Terms and Conditions</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="refund.html">Refund Policy</a>
+      </div>
+      <div style="margin-top:8px;">© 2026 InsightFlow AI. All rights reserved.</div>
+    </div>
+  </div>
+
+  <script>
+    Paddle.Initialize({
+      token: "live_0326ca69fadab10242b2f00ce19"
     });
-  }
-</script>
 
+    function pay() {
+      Paddle.Checkout.open({
+        items: [
+          {
+            priceId: "pri_01kp0nxrxnzdzmhegbvfmt7yas",
+            quantity: 1
+          }
+        ]
+      });
+    }
+  </script>
 </body>
 </html>
