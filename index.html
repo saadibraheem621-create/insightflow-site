@@ -2,8 +2,11 @@
 <html>
 <head>
   <title>InsightFlow AI</title>
+  <meta charset="UTF-8">
+  <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
 </head>
-<body style="text-align:center; padding:40px;">
+
+<body style="text-align:center; padding:40px; font-family:Arial;">
 
 <h1>🚀 InsightFlow AI</h1>
 <p>AI-powered analytics platform</p>
@@ -11,6 +14,27 @@
 <a href="terms.html">Terms</a> |
 <a href="privacy.html">Privacy</a> |
 <a href="refund.html">Refund</a>
+
+<br><br>
+
+<button onclick="pay()">Upgrade to Pro</button>
+
+<script>
+  Paddle.Initialize({
+    token: "PUT_YOUR_CLIENT_TOKEN_HERE"
+  });
+
+  function pay() {
+    Paddle.Checkout.open({
+      items: [
+        {
+          priceId: "pro_01kp0ngp64g3nnrx63qzf6akxy",
+          quantity: 1
+        }
+      ]
+    });
+  }
+</script>
 
 </body>
 </html>
