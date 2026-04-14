@@ -381,3 +381,24 @@
   </script>
 </body>
 </html>
+<form id="uploadForm">
+  <input type="file" id="fileInput" />
+  <button type="submit">Upload</button>
+</form>
+
+<script>
+document.getElementById("uploadForm").onsubmit = async function(e){
+    e.preventDefault();
+    
+    let file = document.getElementById("fileInput").files[0];
+    let formData = new FormData();
+    formData.append("file", file);
+
+    let res = await fetch("http://127.0.0.1:8000/upload/", {
+        method: "POST",
+        body: formData
+    });
+
+    alert("Analysis complete!");
+}
+</script>
