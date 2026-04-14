@@ -420,3 +420,21 @@ document.getElementById("uploadForm").onsubmit = async function(e){
     alert("Analysis complete!");
 }
 </script>
+<script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+
+<script>
+Paddle.Initialize({
+    token: "YOUR_TOKEN_HERE"
+});
+
+function pay() {
+    Paddle.Checkout.open({
+        items: [
+            {
+                priceId: "YOUR_PRICE_ID_HERE",
+                quantity: 1
+            }
+        ]
+    });
+}
+</script>
