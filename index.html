@@ -255,6 +255,28 @@
     }
   </style>
 </head>
+  <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+  <script>
+  Paddle.Environment.set("sandbox"); // لأنك حالياً تستخدم test
+
+  Paddle.Initialize({
+    token: "live_0942f53f642b4dd7824743e9a7d"
+  });
+
+  function buyNow() {
+    Paddle.Checkout.open({
+      items: [
+        {
+          priceId: "pri_01kpbkqqk9anzn2z18n1317fxn",
+          quantity: 1
+        }
+      ]
+    });
+  }
+</script>
+  <button onclick="buyNow()">
+  Subscribe Now - $10/month
+</button>
 <body>
   <div class="nav">
     <div class="brand">🚀 InsightFlow AI</div>
