@@ -1,3 +1,4 @@
+%%html
 !DOCTYPE html>
 <html lang="en">
 <head>
@@ -325,6 +326,7 @@
     </ul>
 
     <!-- 🔥 زر الدفع -->
+      <button onclick="pay()">Start Pro Subscription</button>
     <button onclick="pay()" style="margin-top:15px; padding:10px 20px; background:#007bff; color:white; border:none; border-radius:5px;">
         Start Pro Subscription – $10/month
     </button>
@@ -437,4 +439,25 @@ function pay() {
         ]
     });
 }
+</script>
+<script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+<script>
+  Paddle.Initialize({
+    token: "PUT_YOUR_TOKEN_HERE"
+  });
+
+  function pay() {
+    Paddle.Checkout.open({
+      settings: {
+        displayMode: "overlay",
+        successUrl: "https://insightflowai.to"
+      },
+      items: [
+        {
+          priceId: "PUT_YOUR_PRICE_ID_HERE",
+          quantity: 1
+        }
+      ]
+    });
+  }
 </script>
