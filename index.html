@@ -1,5 +1,7 @@
-%%html
-!DOCTYPE html>
+from IPython.display import HTML
+
+html_content = """
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -255,51 +257,6 @@
     }
   </style>
 </head>
-  <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
-  <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
-  <script>
-  Paddle.Environment.set("sandbox"); // لأنك حالياً تستخدم test
-
-  Paddle.Environment.set("sandbox");
-
-Paddle.Initialize({
-  token: "test_xxxxxxxxxxxxx"
-});
-
-  function buyNow() {
-    Paddle.Checkout.open({
-      items: [
-        {
-          priceId: "pri_01kpbkqqk9anzn2z18n1317fxn",
-          quantity: 1
-        }
-      ]
-    });
-  }
-</script>
-  <button onclick="buyNow()">
-  Subscribe Now - $10/month
-    <script>
-  Paddle.Initialize({
-    token: "live_0942f53f642b4dd7824743e9a7d"
-  });
-
-  function buyNow() {
-    Paddle.Checkout.open({
-      settings: {
-        displayMode: "overlay",
-        successUrl: "https://insightflowai.to"
-      },
-      items: [
-        {
-          priceId: "pri_01kpbkqqk9anzn2z18n1317fxn",
-          quantity: 1
-        }
-      ]
-    });
-  }
-</script>
-</button>
 <body>
   <div class="nav">
     <div class="brand">🚀 InsightFlow AI</div>
@@ -358,32 +315,13 @@ Paddle.Initialize({
         </button>
       </div>
     </section>
-    <div class="card price-card">
-
-    <div class="small">Pro subscription</div>
-
-    <div class="price">$10 <span>/ month</span></div>
-
-    <p class="small">Premium access to InsightFlow</p>
-
-    <ul class="features">
-        <li>AI-generated business insights</li>
-    </ul>
-
-    <!-- 🔥 زر الدفع -->
-      <button onclick="pay()">Start Pro Subscription</button>
-    <button onclick="pay()" style="margin-top:15px; padding:10px 20px; background:#007bff; color:white; border:none; border-radius:5px;">
-        Start Pro Subscription – $10/month
-    </button>
-
-</div>
 
     <section class="section" id="about">
       <div class="section-header">
         <h2>About the platform</h2>
         <p>
           InsightFlow AI is designed as a software service for users who need accessible, AI-powered analysis.
-          Customers access the platform online and subscribe to premium features through a monthly plan.
+          Customers access the product online through a website and subscribe to premium features through a monthly plan.
         </p>
       </div>
     </section>
@@ -435,6 +373,10 @@ Paddle.Initialize({
 
     function pay() {
       Paddle.Checkout.open({
+        settings: {
+          displayMode: "overlay",
+          successUrl: "https://insightflowai.to"
+        },
         items: [
           {
             priceId: "pri_01kp0nxrxnzdzmhegbvfmt7yas",
@@ -444,65 +386,30 @@ Paddle.Initialize({
       });
     }
   </script>
+
+  <form id="uploadForm">
+    <input type="file" id="fileInput" />
+    <button type="submit">Upload</button>
+  </form>
+
+  <script>
+  document.getElementById("uploadForm").onsubmit = async function(e){
+      e.preventDefault();
+
+      let file = document.getElementById("fileInput").files[0];
+      let formData = new FormData();
+      formData.append("file", file);
+
+      let res = await fetch("http://127.0.0.1:8000/upload/", {
+          method: "POST",
+          body: formData
+      });
+
+      alert("Analysis complete!");
+  }
+  </script>
 </body>
 </html>
-<form id="uploadForm">
-  <input type="file" id="fileInput" />
-  <button type="submit">Upload</button>
-</form>
+"""
 
-<script>
-document.getElementById("uploadForm").onsubmit = async function(e){
-    e.preventDefault();
-    
-    let file = document.getElementById("fileInput").files[0];
-    let formData = new FormData();
-    formData.append("file", file);
-
-    let res = await fetch("http://127.0.0.1:8000/upload/", {
-        method: "POST",
-        body: formData
-    });
-
-    alert("Analysis complete!");
-}
-</script>
-<script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
-
-<script>
-Paddle.Initialize({
-    token: "live_0326ca69fadab10242b2f00ce19"
-});
-
-function pay() {
-    Paddle.Checkout.open({
-        items: [
-            {
-                priceId: "pri_01kp0nxrxnzdzmhegbvfmt7yas",
-                quantity: 1
-            }
-        ]
-    });
-}
-</script>
-<script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
-<script>
-  Paddle.Initialize({
-    token: "PUT_YOUR_TOKEN_HERE"
-  });
-
-  function pay() {
-    Paddle.Checkout.open({
-      settings: {
-        displayMode: "overlay",
-        successUrl: "https://insightflowai.to"
-      },
-      items: [
-        {
-          priceId: "PUT_YOUR_PRICE_ID_HERE",
-          quantity: 1
-        }
-      ]
-    });
-  }
-</script>
+display(HTML(html_content))
