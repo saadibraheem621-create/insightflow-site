@@ -260,9 +260,11 @@
   <script>
   Paddle.Environment.set("sandbox"); // لأنك حالياً تستخدم test
 
-  Paddle.Initialize({
-    token: "live_0942f53f642b4dd7824743e9a7d"
-  });
+  Paddle.Environment.set("sandbox");
+
+Paddle.Initialize({
+  token: "test_xxxxxxxxxxxxx"
+});
 
   function buyNow() {
     Paddle.Checkout.open({
