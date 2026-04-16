@@ -256,6 +256,7 @@
   </style>
 </head>
   <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+  <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
   <script>
   Paddle.Environment.set("sandbox"); // لأنك حالياً تستخدم test
 
@@ -276,6 +277,26 @@
 </script>
   <button onclick="buyNow()">
   Subscribe Now - $10/month
+    <script>
+  Paddle.Initialize({
+    token: "live_0942f53f642b4dd7824743e9a7d"
+  });
+
+  function buyNow() {
+    Paddle.Checkout.open({
+      settings: {
+        displayMode: "overlay",
+        successUrl: "https://insightflowai.to"
+      },
+      items: [
+        {
+          priceId: "pri_01kpbkqqk9anzn2z18n1317fxn",
+          quantity: 1
+        }
+      ]
+    });
+  }
+</script>
 </button>
 <body>
   <div class="nav">
