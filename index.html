@@ -1,32 +1,41 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>InsightFlow Subscription</title>
+  <meta charset="UTF-8">
+  <title>InsightFlow</title>
 </head>
 <body>
-  <h2>اشترك في InsightFlow</h2>
-  <button id="subscribeBtn">اشترك الآن</button>
 
-  <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
-  <script>
-    Paddle.Environment.set("sandbox");
+<h2>اشترك في InsightFlow</h2>
+<button onclick="buy()">اشترك الآن</button>
 
+<!-- Paddle -->
+<script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+
+<script>
+  // تأكد إذا Paddle انحمل
+  if (typeof Paddle === "undefined") {
+    console.error("❌ Paddle ما انحمل - شغل VPN أو غيّر الرابط");
+  } else {
+    console.log("✅ Paddle شغال");
+
+    Paddle.Environment.set("sandbox"); // مهم
     Paddle.Initialize({
       token: "test_d01ac05ce7ad94fc4cbc784e2d4"
     });
+  }
 
-    document.getElementById("subscribeBtn").addEventListener("click", function () {
-      Paddle.Checkout.open({
-        items: [
-          {
-            priceId: "pri_01kpcc0xj4g5fs5xt0trh8xxeb",
-            quantity: 1
-          }
-        ]
-      });
+  function buy() {
+    Paddle.Checkout.open({
+      items: [
+        {
+          priceId: "pri_01kpcc0xj4g5fs5xt0trh8xxeb",
+          quantity: 1
+        }
+      ]
     });
-  </script>
+  }
+</script>
+
 </body>
 </html>
