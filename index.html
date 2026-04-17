@@ -13,13 +13,19 @@
 <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
 
 <script>
-  Paddle.Environment.set("sandbox"); // مهم للتجربة
+  document.addEventListener("DOMContentLoaded", function () {
 
-  Paddle.Setup({
-    token: "test_d01ac05ce7ad94fc4cbc784e2d4"
+    Paddle.Environment.set("sandbox");
+
+    Paddle.Setup({
+      token: "test_d01ac05ce7ad94fc4cbc784e2d4"
+    });
+
   });
 
   function subscribe() {
+    console.log("clicked");
+
     Paddle.Checkout.open({
       items: [
         {
