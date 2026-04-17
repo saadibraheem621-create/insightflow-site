@@ -5,6 +5,42 @@
   <title>InsightFlow</title>
 </head>
 <body>
+  <!DOCTYPE html>
+<html>
+<head>
+  <title>InsightFlow</title>
+
+  <!-- مهم جداً -->
+  <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+
+</head>
+
+<body>
+
+<h1>اشترك في InsightFlow</h1>
+
+<button onclick="buy()">اشترك الآن</button>
+
+<script>
+  Paddle.Environment.set("sandbox");
+
+  Paddle.Initialize({
+    token: "live_448f4a15c953e849b2834d872aa"
+  });
+
+  function buy() {
+    Paddle.Checkout.open({
+      items: [
+        {
+          priceId: "pro_01kpebfsaa3bg94mdrpyegah53"
+        }
+      ]
+    });
+  }
+</script>
+
+</body>
+</html>
 
 <h2>اشترك في InsightFlow</h2>
 <button onclick="buy()">اشترك الآن</button>
@@ -21,7 +57,7 @@
 
     Paddle.Environment.set("sandbox"); // مهم
     Paddle.Initialize({
-      token: "live_1e521d161b6030269524a5b0a81"
+      token: "live_448f4a15c953e849b2834d872aa"
     });
   }
 
@@ -29,7 +65,7 @@
     Paddle.Checkout.open({
       items: [
         {
-          priceId: "pri_01kpcc0xj4g5fs5xt0trh8xxeb",
+          priceId: "pro_01kpebfsaa3bg94mdrpyegah53",
           quantity: 1
         }
       ]
